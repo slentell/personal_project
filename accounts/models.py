@@ -11,3 +11,12 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
+
+class ChildUser(models.Model):
+    first_name=(models.CharField(null=True, blank=True, max_length=100))
+    dob = (models.DateField(default=date.today))
+    parent_account = (models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='child'))
+
+    def __str__(self):
+        return self.first_name
+
