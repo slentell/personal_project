@@ -1,6 +1,5 @@
 const BASE_URL = 'http://localhost:8000/api/v1'
-const SIGNUP_URL = 'http://localhost:8000/api/v1/auth/register/'
-const LOGOUT_URL = 'http://localhost:8000/api/v1/accounts/auth/logout/'
+
 
 const tryCatchFetch = async (url, init = null) => {
   try {
@@ -43,6 +42,19 @@ const addChore = async (choreObj) => {
   return await tryCatchFetch(url, init)
 
 }
+const addChild = async (childObj) => {
+  let url = 'http://127.0.0.1:8000/api/v1/accounts/addchild'
+  let init = {
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    method: "POST",
+    body: JSON.stringify(childObj)
+  }
+  return await tryCatchFetch(url, init)
+
+  }
+
 
 
 
@@ -53,7 +65,7 @@ const exportItems = {
   fetchChoresByAssignedUser,
   fetchChoresByUser,
   addChore, 
-
+  addChild,
 
 };
 

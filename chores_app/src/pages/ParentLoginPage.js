@@ -12,7 +12,7 @@ const ParentLoginPage = (props) => {
 
 
   useEffect(() => {
-    if (localStorage.getItem('token') !== null) {
+    if (localStorage.getItem('access') !== null) {
       navigate('/parent_dashboard');
     } else {
       setLoading(false);
@@ -26,7 +26,10 @@ const ParentLoginPage = (props) => {
       username: username,
       password: password,
     }
-    fetch('http://127.0.0.1:8000/api/v1/accounts/auth/login/' , {
+    console.log(username)
+    console.log(password)
+
+    fetch('http://127.0.0.1:8000/api/v1/accounts/login/' , {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -36,9 +39,10 @@ const ParentLoginPage = (props) => {
     .then(res => res.json())
     .then(data => {
       console.log(data)
-      if (data.key) {
+      
+      if (data.access) {
         localStorage.clear();
-        localStorage.setItem('token', data.key);
+        localStorage.setItem('access', data.access);
         navigate('/parent_dashboard');
       } else {
         setUsername('');

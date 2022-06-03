@@ -9,7 +9,8 @@ import ChildLoginPage from './pages/ChildLoginPage';
 import ParentDashboard from './pages/ParentDashboard';
 import ChildDashboard from './pages/ChildDashboard';
 import SignUp from './pages/SignUp';
-
+import AddChore from './pages/AddChore';
+import AddChild from './pages/AddChild'
 function App() {
   return (
     <div>
@@ -21,7 +22,9 @@ function App() {
             <Route exact path="/parent_login" element= { <ParentLoginPage /> } />
             <Route exact path="/child_login" element= { <ChildLoginPage /> } />
             <Route exact path="/parent_dashboard" element= { <ParentDashboard /> } />
-            <Route exact path="/child_dashboard" element= { <ChildDashboard /> } />
+            <Route exact path="/childdashboard" element= { <ChildDashboard /> } />
+            <Route exact path="/addchore" element = {<AddChore /> } />
+            <Route exact path="/addchild" element = {<AddChild /> } />
           </Routes>
        </BrowserRouter>
     </div>

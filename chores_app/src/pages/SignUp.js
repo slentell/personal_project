@@ -10,7 +10,7 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [first_name, setFirst_Name] = useState('')
   const [last_name, setLast_Name] = useState('')
-  const [password1, setPassword1] = useState('');
+  const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
   const [is_parent, setIs_Parent] = useState(false)
   const [errors, setErrors] = useState(false);
@@ -36,7 +36,7 @@ const SignUp = () => {
       email: email,
       first_name: first_name,
       last_name: last_name,
-      password1: password1,
+      password: password,
       password2: password2,
       is_parent: is_parent,
     }
@@ -44,10 +44,10 @@ const SignUp = () => {
     console.log(email)
     console.log(first_name)
     console.log(last_name)
-    console.log(password1)
+    console.log(password)
     console.log(password2)
     console.log(is_parent)
-      fetch('http://127.0.0.1:8000/api/v1/accounts/auth/register/', {
+      fetch('http://127.0.0.1:8000/api/v1/accounts/register/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -57,17 +57,33 @@ const SignUp = () => {
       .then(res => res.json())
       .then(data => {
         console.log(data)
-        console.log(data.key)
-        if (data.key) {
-          localStorage.clear();
-          localStorage.setItem('token', data.key);
-          navigate('/homepage')
+        if (data) {
+          let parentLoginObj = {
+            username:username,
+            password:password,
+          }
+
+          fetch('http://127.0.0.1:8000/api/v1/accounts/login/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(parentLoginObj)
+          })
+          .then(res => res.json())
+          .then(data => {
+            if (data.access) {
+              localStorage.clear();
+              localStorage.setItem('access', data.access);
+              navigate('/parent_dashboard')
+            }
+          })
         } else {
           setUsername('');
           setEmail('');
           setFirst_Name('');
           setLast_Name('');
-          setPassword1('');
+          setPassword('');
           setPassword2('');
           setIs_Parent(false)
           localStorage.clear();
@@ -99,7 +115,7 @@ const SignUp = () => {
         </div>
         <div className="mb-3">
         <Form.Label required>Password: </Form.Label>
-        <Form.Control id="password1" type="password" placeholder="password" onChange={e => setPassword1(e.target.value)} required/>
+        <Form.Control id="password" type="password" placeholder="password" onChange={e => setPassword(e.target.value)} required/>
         </div>
         <div className="mb-3">
         <Form.Label required>Password: </Form.Label>

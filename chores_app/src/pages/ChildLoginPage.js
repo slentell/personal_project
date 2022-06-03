@@ -26,7 +26,7 @@ const ChildLoginPage = (props) => {
       username: username,
       password: password,
     }
-    fetch('http://127.0.0.1:8000/api/v1/accounts/auth/login/' , {
+    fetch('http://127.0.0.1:8000/api/v1/accounts/login/' , {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -35,9 +35,9 @@ const ChildLoginPage = (props) => {
     })
     .then(res => res.json())
     .then(data => {
-      if (data.key) {
+      if (data.access) {
         localStorage.clear();
-        localStorage.setItem('token', data.key);
+        localStorage.setItem('access', data.access);
         navigate('/child_dashboard');
       } else {
         setUsername('');
