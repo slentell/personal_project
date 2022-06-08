@@ -1,54 +1,74 @@
-import React, { useState } from 'react'
-import { Button, Form, } from 'react-bootstrap';
-import addChild from '../api/ChoreAPI.js'
+import React, { useState } from "react";
+import { Button, Form, Container, Row, Col } from "react-bootstrap";
+import ChoreAPI from '../api/ChoreAPI'
+
+// import addChild from "../api/ChoreAPI.js";
+import { useAuth } from "../provider/AuthProvider.jsx";
 
 
 const AddChild = () => {
-  const [firstName, setFirstName] = useState('')
-  const [dob, setDob] = useState()
-  const [parentID, setParentID] = useState()
-  // const [errors, setErrors] = useState(false)
-  // const [loading, setLoading] = useState(true)
+  const [first_name, setFirst_Name] = useState("");
+  const [dob, setDob] = useState("");
+  
+  const { parentAccount } = useAuth();
 
+
+    
   const handleFormSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     let childObj = {
-      firstName: firstName,
+      first_name: first_name,
       dob: dob,
-      parentID: parentID
-    }
-    console.log(childObj)
+      parent_account: parentAccount,
+    };
+    console.log(localStorage.getItem('access'))
+    ChoreAPI.addChild(childObj, setFirst_Name, setDob)
+    
+  };
 
-    addChild(childObj)
-  }
-
-  
   return (
-    <div>
-       <h2>Add a Child</h2>
-       <Form onSubmit={handleFormSubmit}>
+    <div >
+      <h2 className="d-flex justify-content-center">Add a Child</h2>
+      <Container>
+      <Form onSubmit={handleFormSubmit}>
+        <Row>
+          <Col>
         <div className="mb-3">
-        <Form.Label>Child Name </Form.Label>
-        <Form.Control id="childname" type="text" value={firstName} placeholder="Enter First Name" onChange={e => setFirstName(e.target.value)} />
+          <Form.Label>Child Name </Form.Label>
+          <Form.Control
+            id="childname"
+            type="text"
+            value={first_name}
+            placeholder="Enter First Name"
+            onChange={(e) => setFirst_Name(e.target.value)}
+          />
         </div>
+        </Col>
+        <Col>
         <div className="mb-3">
-        <Form.Label>Date of Birth </Form.Label>
-        <Form.Control id="dob" type="date" value={dob} placeholder="Enter Birthday" onChange={e => setDob(e.target.value)} />
+          <Form.Label>Date of Birth </Form.Label>
+          <Form.Control
+            id="dob"
+            type="date"
+            value={dob}
+            placeholder="Enter Birthday"
+            onChange={(e) => setDob(e.target.value)}
+          />
         </div>
-        <div className="mb-3">
-        <Form.Label>Parent </Form.Label>
-        <Form.Control id="childname" type="text" value={parentID} placeholder="Enter First Name" onChange={e => setFirstName(e.target.value)} />
+        </Col>
+        </Row>
+        <div className="d-flex justify-content-center align-items-center">
+          
+          <Button style={{marginRight: "20px"}}type="submit">Add Child</Button>
+       
+          <Button style={{marginLeft: "30px"}}href="/parent_dashboard">Return to Dashboard</Button>
+          
         </div>
-        
-        
-      <div className="d-grid">
-      <Button type="submit">Add Child</Button>
-      </div>
       </Form>
-      
-        
-      </div>
-)}
+      </Container>
+    </div>
+  );
+};
 
-export default AddChild
+export default AddChild;

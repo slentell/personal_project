@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:8000/api/v1'
+const BASE_URL = 'http://localhost:8000/api/'
 
 
 const tryCatchFetch = async (url, init = null) => {
@@ -20,16 +20,26 @@ const fetchChores = async (filters = null) => {
 }
 
 // on the parent dashboard for listing each child's chores
-const fetchChoresByAssignedUser = async (assignedUser) => {
-  let filter = `{"assigned_user":{"ilike":"${assignedUser}"}}`
-  return fetchChores(filter)
-};
-// on the child dashboard to get their chores
-const fetchChoresByUser = async (username) => {
-  let filter = `{"username":{"ilike":"${username}"}}`
-  return fetchChores(filter)
-};
-
+const choreByChild = async (assigned_user, chores, setChores) => {
+  try {
+    await fetch(
+      `http://127.0.0.1:8000/api/?assigned_user=${assigned_user}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("access")}`,
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.length !== chores.length) setChores(data);
+      });
+  } catch (e) {
+    console.error("Error fetching api data", e);
+  }
+}
 const addChore = async (choreObj) => {
   let url = BASE_URL
   let init = {
@@ -42,18 +52,75 @@ const addChore = async (choreObj) => {
   return await tryCatchFetch(url, init)
 
 }
-const addChild = async (childObj) => {
-  let url = 'http://127.0.0.1:8000/api/v1/accounts/addchild'
-  let init = {
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    method: "POST",
-    body: JSON.stringify(childObj)
-  }
-  return await tryCatchFetch(url, init)
+const addChild = async (childObj, setFirst_Name, setDob) => {
+  let response = await fetch('http://localhost:8000/api/accounts/addchild/', {
+    
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization':`Bearer ${(localStorage.getItem('access'))}`,
+        
+      },
+      body: JSON.stringify(childObj),
+    })
+    setFirst_Name('')
+    setDob('')
+    return await response.json
 
   }
+
+const deleteChild = async (id) => {
+  try {
+    await fetch(`http://localhost:8000/api/accounts/updatechild/${id}/`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${localStorage.getItem("access")}`,
+      },
+    });
+  } catch (e) {
+    console.error("Error deleting data", e);
+  }
+}
+const childByParent = async (child_accts, setChild_Accts) => {
+  try {
+    await fetch("http://127.0.0.1:8000/api/accounts/child/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${localStorage.getItem("access")}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.length !== child_accts.length) setChild_Accts(data);
+      });
+  } catch (e) {
+    console.error("Error fetching api data", e);
+  }
+};
+
+const deleteChore = async (id) => {
+      await fetch(`http://localhost:8000/api/${id}/`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${localStorage.getItem("access")}`,
+      },
+    })
+  }
+    // .then(
+    //   await fetch(`http://127.0.0.1:8000/api/${id}/`, {
+    //     method: "DELETE",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       authorization: `Bearer ${localStorage.getItem("access")}`,
+    //     },
+    //   })
+    // );
+
+
+
 
 
 
@@ -62,10 +129,14 @@ const addChild = async (childObj) => {
 
 const exportItems = { 
   fetchChores,
-  fetchChoresByAssignedUser,
-  fetchChoresByUser,
+  choreByChild,
   addChore, 
   addChild,
+  deleteChild, 
+  childByParent,
+  deleteChore,
+
+
 
 };
 

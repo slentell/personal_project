@@ -1,8 +1,10 @@
 import React from 'react'
+import KidCardPage from '../components/KidCardPage/KidCardPage'
 
-const ChildDashboard = () => {
+const ChildDashboard = (props) => {
+  console.log(props.value)
   return (
-    <div>ChildDashboard</div>
+    <div><KidCardPage props={props}/></div>
   )
 }
 
