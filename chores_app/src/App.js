@@ -5,25 +5,43 @@ import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import ParentLoginPage from './pages/ParentLoginPage'
-import ChildLoginPage from './pages/ChildLoginPage';
 import ParentDashboard from './pages/ParentDashboard';
 import ChildDashboard from './pages/ChildDashboard';
 import SignUp from './pages/SignUp';
+import AddChild from './pages/AddChild';
+import { AuthProvider } from './provider/AuthProvider';
+import { ChildProvider } from './provider/ChildProvider';
+import { ChoreProvider } from './provider/ChoreProvider';
+
+
+
 
 function App() {
   return (
     <div>
-      <BrowserRouter>
+      <AuthProvider>
+      <ChildProvider>
+        <ChoreProvider>
+
+
+
+        <BrowserRouter>
           <AppNav />
           <Routes>
             <Route exact path="/homepage" element = { < HomePage />} />   
             <Route exact path="/signup" element = { <SignUp /> } />      
             <Route exact path="/parent_login" element= { <ParentLoginPage /> } />
-            <Route exact path="/child_login" element= { <ChildLoginPage /> } />
             <Route exact path="/parent_dashboard" element= { <ParentDashboard /> } />
-            <Route exact path="/child_dashboard" element= { <ChildDashboard /> } />
+            <Route exact path="/childdashboard" element= { <ChildDashboard /> } />
+            <Route exact path="/addchild" element = {<AddChild /> } />
           </Routes>
        </BrowserRouter>
+       </ChoreProvider>
+
+
+       </ChildProvider>
+
+       </AuthProvider>
     </div>
   );
 }

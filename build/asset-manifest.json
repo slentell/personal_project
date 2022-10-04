@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.92a20163.css",
+    "main.js": "/static/js/main.00668a65.js",
+    "static/js/787.78359cf6.chunk.js": "/static/js/787.78359cf6.chunk.js",
+    "static/media/Chore Magic.png": "/static/media/Chore Magic.172cb8b35c4f6c3de891.png",
+    "index.html": "/index.html",
+    "main.92a20163.css.map": "/static/css/main.92a20163.css.map",
+    "main.00668a65.js.map": "/static/js/main.00668a65.js.map",
+    "787.78359cf6.chunk.js.map": "/static/js/787.78359cf6.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.92a20163.css",
+    "static/js/main.00668a65.js"
+  ]
+}
